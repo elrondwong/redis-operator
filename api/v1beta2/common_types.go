@@ -17,7 +17,7 @@ limitations under the License.
 package v1beta2
 
 import (
-	common "github.com/OT-CONTAINER-KIT/redis-operator/api"
+	common "github.com/elrondwong/redis-operator/api"
 	corev1 "k8s.io/api/core/v1"
 )
 

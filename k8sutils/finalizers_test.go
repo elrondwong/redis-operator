@@ -7,7 +7,7 @@ import (
 
 	// "time"
 
-	"github.com/OT-CONTAINER-KIT/redis-operator/api/v1beta2"
+	"github.com/elrondwong/redis-operator/api/v1beta2"
 	"github.com/go-logr/logr/testr"
 	"github.com/stretchr/testify/assert"
 	corev1 "k8s.io/api/core/v1"

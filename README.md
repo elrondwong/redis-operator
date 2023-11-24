@@ -6,8 +6,8 @@
   <a href="https://dev.azure.com/opstreedevops/DevOps/_apis/build/status/redis-operator/redis-operator?repoName=OT-CONTAINER-KIT%2Fredis-operator&branchName=master">
     <img src="https://dev.azure.com/opstreedevops/DevOps/_apis/build/status/redis-operator/redis-operator?repoName=OT-CONTAINER-KIT%2Fredis-operator&branchName=master" alt="Azure Pipelines">
   </a>
-  <a href="https://goreportcard.com/report/github.com/OT-CONTAINER-KIT/redis-operator">
-    <img src="https://goreportcard.com/badge/github.com/OT-CONTAINER-KIT/redis-operator" alt="GoReportCard">
+  <a href="https://goreportcard.com/report/github.com/elrondwong/redis-operator">
+    <img src="https://goreportcard.com/badge/github.com/elrondwong/redis-operator" alt="GoReportCard">
   </a>
   <a href="http://golang.org">
     <img src="https://img.shields.io/github/go-mod/go-version/OT-CONTAINER-KIT/redis-operator" alt="GitHub go.mod Go version (subdirectory of monorepo)">
@@ -18,7 +18,7 @@
   <a href="https://quay.io/repository/opstree/redis-operator">
     <img src="https://img.shields.io/badge/container-ready-green" alt="Docker">
   </a>
-  <a href="https://github.com/OT-CONTAINER-KIT/redis-operator/master/LICENSE">
+  <a href="https://github.com/elrondwong/redis-operator/master/LICENSE">
     <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="License">
   </a>
 </p>
@@ -27,7 +27,7 @@ A Golang based redis operator that will make/oversee Redis standalone and cluste
 
 For documentation, please refer to https://ot-redis-operator.netlify.app/
 
-Organizations that are using Redis Operator to manage their redis workload can be found [here](./USED_BY_ORGANIZATIONS.md). If your organization is also using Redis Operator, please free to add by creating a [pull request](https://github.com/OT-CONTAINER-KIT/redis-operator/pulls)
+Organizations that are using Redis Operator to manage their redis workload can be found [here](./USED_BY_ORGANIZATIONS.md). If your organization is also using Redis Operator, please free to add by creating a [pull request](https://github.com/elrondwong/redis-operator/pulls)
 
 This operator only supports versions of redis `=>6`.
 

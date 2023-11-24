@@ -24,4 +24,4 @@ currently being supported with security updates.
 
 ## Reporting a Vulnerability
 
-If you find any security vulnerability inside the Project, please open an issue at https://github.com/OT-CONTAINER-KIT/redis-operator/issues
+If you find any security vulnerability inside the Project, please open an issue at https://github.com/elrondwong/redis-operator/issues

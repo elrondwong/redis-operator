@@ -1,4 +1,4 @@
-module github.com/OT-CONTAINER-KIT/redis-operator
+module github.com/elrondwong/redis-operator
 
 go 1.21
 

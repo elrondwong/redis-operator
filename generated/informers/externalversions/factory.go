@@ -22,9 +22,9 @@ import (
 	sync "sync"
 	time "time"
 
-	versioned "github.com/OT-CONTAINER-KIT/redis-operator/generated/clientset/versioned"
-	core "github.com/OT-CONTAINER-KIT/redis-operator/generated/informers/externalversions/core"
-	internalinterfaces "github.com/OT-CONTAINER-KIT/redis-operator/generated/informers/externalversions/internalinterfaces"
+	versioned "github.com/elrondwong/redis-operator/generated/clientset/versioned"
+	core "github.com/elrondwong/redis-operator/generated/informers/externalversions/core"
+	internalinterfaces "github.com/elrondwong/redis-operator/generated/informers/externalversions/internalinterfaces"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 	schema "k8s.io/apimachinery/pkg/runtime/schema"

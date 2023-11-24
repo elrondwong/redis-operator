@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 
-	redisv1beta2 "github.com/OT-CONTAINER-KIT/redis-operator/api/v1beta2"
+	redisv1beta2 "github.com/elrondwong/redis-operator/api/v1beta2"
 	"github.com/go-logr/logr"
 	redis "github.com/redis/go-redis/v9"
 	"k8s.io/client-go/kubernetes"

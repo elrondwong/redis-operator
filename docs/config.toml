@@ -75,7 +75,7 @@ weight = 1
 
 [params]
 copyright = "Copyright Opstree Solutions"
-github_repo = "https://github.com/ot-container-kit/redis-operator"
+github_repo = "https://github.com/elrondwong/redis-operator"
 
 # Google Custom Search Engine ID. Remove or comment out to disable search.
 gcs_engine_id = "016691298986124624340:x7qv2dywdao"
@@ -124,7 +124,7 @@ enable = false
         desc = "Chat with other project users in #users"
 [[params.links.user]]
 	name = "User mailing list"
-	url = "https://github.com/OT-CONTAINER-KIT/redis-operator/discussions"
+	url = "https://github.com/elrondwong/redis-operator/discussions"
 	icon = "fa fa-envelope"
         desc = "Discussion and help from your fellow users"
 [[params.links.user]]
@@ -135,7 +135,7 @@ enable = false
 # Developer relevant links. These will show up on right side of footer and in the community page if you have one.
 [[params.links.developer]]
 	name = "GitHub"
-	url = "https://github.com/OT-CONTAINER-KIT/redis-operator"
+	url = "https://github.com/elrondwong/redis-operator"
 	icon = "fab fa-github"
         desc = "Development takes place here!"
 [[params.links.developer]]

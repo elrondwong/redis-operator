@@ -1,6 +1,6 @@
 package k8sutils
 
-import redisv1beta2 "github.com/OT-CONTAINER-KIT/redis-operator/api/v1beta2"
+import redisv1beta2 "github.com/elrondwong/redis-operator/api/v1beta2"
 
 // CreateReplicationService method will create replication service for Redis
 func CreateReplicationService(cr *redisv1beta2.RedisReplication) error {

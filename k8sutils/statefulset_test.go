@@ -4,8 +4,8 @@ import (
 	"path"
 	"testing"
 
-	common "github.com/OT-CONTAINER-KIT/redis-operator/api"
-	redisv1beta2 "github.com/OT-CONTAINER-KIT/redis-operator/api/v1beta2"
+	common "github.com/elrondwong/redis-operator/api"
+	redisv1beta2 "github.com/elrondwong/redis-operator/api/v1beta2"
 	"github.com/stretchr/testify/assert"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/utils/pointer"

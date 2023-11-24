@@ -8,8 +8,8 @@ import (
 	"strconv"
 	"strings"
 
-	commonapi "github.com/OT-CONTAINER-KIT/redis-operator/api"
-	redisv1beta2 "github.com/OT-CONTAINER-KIT/redis-operator/api/v1beta2"
+	commonapi "github.com/elrondwong/redis-operator/api"
+	redisv1beta2 "github.com/elrondwong/redis-operator/api/v1beta2"
 	"github.com/banzaicloud/k8s-objectmatcher/patch"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"

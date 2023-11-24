@@ -6,8 +6,8 @@ import (
 	"strings"
 	"testing"
 
-	redisv1beta2 "github.com/OT-CONTAINER-KIT/redis-operator/api/v1beta2"
-	mock_utils "github.com/OT-CONTAINER-KIT/redis-operator/mocks/utils"
+	redisv1beta2 "github.com/elrondwong/redis-operator/api/v1beta2"
+	mock_utils "github.com/elrondwong/redis-operator/mocks/utils"
 	"github.com/go-logr/logr/testr"
 	"github.com/stretchr/testify/assert"
 	corev1 "k8s.io/api/core/v1"

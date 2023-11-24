@@ -16,9 +16,9 @@ Tools involved in this kind of setup:
 
 ## Amazon EKS Cluster
 
-To create a Kubernetes cluster on AWS, we need to download and install the [eksctl](https://eksctl.io/) on the local system and then [eks-cluster.yaml](https://github.com/OT-CONTAINER-KIT/redis-operator/blob/master/example/eks-cluster.yaml) can be executed with it for cluster creation.
+To create a Kubernetes cluster on AWS, we need to download and install the [eksctl](https://eksctl.io/) on the local system and then [eks-cluster.yaml](https://github.com/elrondwong/redis-operator/blob/master/example/eks-cluster.yaml) can be executed with it for cluster creation.
 
-The content of [eks-cluster.yaml](https://github.com/OT-CONTAINER-KIT/redis-operator/blob/master/example/eks-cluster.yaml) looks like:
+The content of [eks-cluster.yaml](https://github.com/elrondwong/redis-operator/blob/master/example/eks-cluster.yaml) looks like:
 
 ```yaml
 apiVersion: eksctl.io/v1alpha5

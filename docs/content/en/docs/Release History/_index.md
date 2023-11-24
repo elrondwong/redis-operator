@@ -173,9 +173,9 @@ description: >
 
 **🐞 Bug Fixes**
 
-- Password updation bug https://github.com/OT-CONTAINER-KIT/redis-operator/issues/21
-- POD recovery, Can't Sync pods IP to nodes.conf https://github.com/OT-CONTAINER-KIT/redis-operator/issues/20
-- Directory creation (permission issue) https://github.com/OT-CONTAINER-KIT/redis-operator/issues/19
+- Password updation bug https://github.com/elrondwong/redis-operator/issues/21
+- POD recovery, Can't Sync pods IP to nodes.conf https://github.com/elrondwong/redis-operator/issues/20
+- Directory creation (permission issue) https://github.com/elrondwong/redis-operator/issues/19
 
 ### v0.2.0
 **July 1, 2020**

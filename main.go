@@ -34,11 +34,11 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/metrics/server"
 	"sigs.k8s.io/controller-runtime/pkg/webhook"
 
-	redisv1beta2 "github.com/OT-CONTAINER-KIT/redis-operator/api/v1beta2"
-	"github.com/OT-CONTAINER-KIT/redis-operator/controllers"
-	"github.com/OT-CONTAINER-KIT/redis-operator/k8sutils"
+	redisv1beta2 "github.com/elrondwong/redis-operator/api/v1beta2"
+	"github.com/elrondwong/redis-operator/controllers"
+	"github.com/elrondwong/redis-operator/k8sutils"
 
-	redisv1beta1 "github.com/OT-CONTAINER-KIT/redis-operator/api/v1beta1"
+	redisv1beta1 "github.com/elrondwong/redis-operator/api/v1beta1"
 	// +kubebuilder:scaffold:imports
 )
 

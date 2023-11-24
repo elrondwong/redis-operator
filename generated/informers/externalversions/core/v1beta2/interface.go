@@ -18,7 +18,7 @@ limitations under the License.
 package v1beta2
 
 import (
-	internalinterfaces "github.com/OT-CONTAINER-KIT/redis-operator/generated/informers/externalversions/internalinterfaces"
+	internalinterfaces "github.com/elrondwong/redis-operator/generated/informers/externalversions/internalinterfaces"
 )
 
 // Interface provides access to all the informers in this group version.

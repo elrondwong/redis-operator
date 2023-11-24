@@ -1,5 +1,5 @@
 <!--
-    Please read https://github.com/OT-CONTAINER-KIT/redis-operator/blob/master/CONTRIBUTING.md before submitting
+    Please read https://github.com/elrondwong/redis-operator/blob/master/CONTRIBUTING.md before submitting
     your pull request. Please fill in each section below to help us better prioritize your pull request. Thanks!
 -->
 

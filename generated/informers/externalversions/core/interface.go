@@ -18,8 +18,8 @@ limitations under the License.
 package core
 
 import (
-	v1beta2 "github.com/OT-CONTAINER-KIT/redis-operator/generated/informers/externalversions/core/v1beta2"
-	internalinterfaces "github.com/OT-CONTAINER-KIT/redis-operator/generated/informers/externalversions/internalinterfaces"
+	v1beta2 "github.com/elrondwong/redis-operator/generated/informers/externalversions/core/v1beta2"
+	internalinterfaces "github.com/elrondwong/redis-operator/generated/informers/externalversions/internalinterfaces"
 )
 
 // Interface provides access to each of this group's versions.

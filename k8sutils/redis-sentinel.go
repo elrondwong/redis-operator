@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"errors"
 
-	commonapi "github.com/OT-CONTAINER-KIT/redis-operator/api"
-	redisv1beta2 "github.com/OT-CONTAINER-KIT/redis-operator/api/v1beta2"
+	commonapi "github.com/elrondwong/redis-operator/api"
+	redisv1beta2 "github.com/elrondwong/redis-operator/api/v1beta2"
 	"github.com/go-logr/logr"
 	corev1 "k8s.io/api/core/v1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"

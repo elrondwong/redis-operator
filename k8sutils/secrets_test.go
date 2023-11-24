@@ -5,8 +5,8 @@ import (
 	"path/filepath"
 	"testing"
 
-	common "github.com/OT-CONTAINER-KIT/redis-operator/api"
-	redisv1beta2 "github.com/OT-CONTAINER-KIT/redis-operator/api/v1beta2"
+	common "github.com/elrondwong/redis-operator/api"
+	redisv1beta2 "github.com/elrondwong/redis-operator/api/v1beta2"
 	"github.com/go-logr/logr/testr"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
