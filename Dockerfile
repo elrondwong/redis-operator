@@ -8,6 +8,7 @@ ARG TARGETPLATFORM
 ARG TARGETOS
 ARG TARGETARCH
 ARG TARGETVARIANT
+ENV GOPROXY "https://goproxy.cn,direct"
 
 WORKDIR /workspace
 # Copy the Go Modules manifests
@@ -34,7 +35,7 @@ RUN GO111MODULE=on go build  -ldflags "${LDFLAGS}" -a -o manager main.go
 
 # Use distroless as minimal base image to package the manager binary
 # Refer to https://github.com/GoogleContainerTools/distroless for more details
-FROM gcr.io/distroless/static:nonroot
+FROM registry.cn-hangzhou.aliyuncs.com/fkk/redis-operator:nonroot
 LABEL maintainer="The Opstree Opensource <opensource@opstree.com>"
 WORKDIR /
 COPY --from=builder /workspace/manager .

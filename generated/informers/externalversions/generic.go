@@ -52,6 +52,14 @@ func (f *genericInformer) Lister() cache.GenericLister {
 func (f *sharedInformerFactory) ForResource(resource schema.GroupVersionResource) (GenericInformer, error) {
 	switch resource {
 	// Group=core, Version=v1beta2
+	case v1beta2.SchemeGroupVersion.WithResource("redis"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().Redises().Informer()}, nil
+	case v1beta2.SchemeGroupVersion.WithResource("redis"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().Redises().Informer()}, nil
+	case v1beta2.SchemeGroupVersion.WithResource("redis"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().Redises().Informer()}, nil
+	case v1beta2.SchemeGroupVersion.WithResource("redis"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().Redises().Informer()}, nil
 	case v1beta2.SchemeGroupVersion.WithResource("redisclusters"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisClusters().Informer()}, nil
 	case v1beta2.SchemeGroupVersion.WithResource("redisclusters"):
@@ -60,14 +68,6 @@ func (f *sharedInformerFactory) ForResource(resource schema.GroupVersionResource
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisClusters().Informer()}, nil
 	case v1beta2.SchemeGroupVersion.WithResource("redisclusters"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisClusters().Informer()}, nil
-	case v1beta2.SchemeGroupVersion.WithResource("redislists"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisLists().Informer()}, nil
-	case v1beta2.SchemeGroupVersion.WithResource("redislists"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisLists().Informer()}, nil
-	case v1beta2.SchemeGroupVersion.WithResource("redislists"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisLists().Informer()}, nil
-	case v1beta2.SchemeGroupVersion.WithResource("redislists"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisLists().Informer()}, nil
 	case v1beta2.SchemeGroupVersion.WithResource("redisreplications"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisReplications().Informer()}, nil
 	case v1beta2.SchemeGroupVersion.WithResource("redisreplications"):
@@ -76,16 +76,24 @@ func (f *sharedInformerFactory) ForResource(resource schema.GroupVersionResource
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisReplications().Informer()}, nil
 	case v1beta2.SchemeGroupVersion.WithResource("redisreplications"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisReplications().Informer()}, nil
-	case v1beta2.SchemeGroupVersion.WithResource("redissentinellists"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisSentinelLists().Informer()}, nil
-	case v1beta2.SchemeGroupVersion.WithResource("redissentinellists"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisSentinelLists().Informer()}, nil
-	case v1beta2.SchemeGroupVersion.WithResource("redissentinellists"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisSentinelLists().Informer()}, nil
-	case v1beta2.SchemeGroupVersion.WithResource("redissentinellists"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisSentinelLists().Informer()}, nil
+	case v1beta2.SchemeGroupVersion.WithResource("redissentinels"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisSentinels().Informer()}, nil
+	case v1beta2.SchemeGroupVersion.WithResource("redissentinels"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisSentinels().Informer()}, nil
+	case v1beta2.SchemeGroupVersion.WithResource("redissentinels"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisSentinels().Informer()}, nil
+	case v1beta2.SchemeGroupVersion.WithResource("redissentinels"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisSentinels().Informer()}, nil
 
 		// Group=core, Version=v1beta2
+	case v1beta2.SchemeGroupVersion.WithResource("redis"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().Redises().Informer()}, nil
+	case v1beta2.SchemeGroupVersion.WithResource("redis"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().Redises().Informer()}, nil
+	case v1beta2.SchemeGroupVersion.WithResource("redis"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().Redises().Informer()}, nil
+	case v1beta2.SchemeGroupVersion.WithResource("redises"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().Redises().Informer()}, nil
 	case v1beta2.SchemeGroupVersion.WithResource("redisclusters"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisClusters().Informer()}, nil
 	case v1beta2.SchemeGroupVersion.WithResource("redisclusters"):
@@ -94,14 +102,6 @@ func (f *sharedInformerFactory) ForResource(resource schema.GroupVersionResource
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisClusters().Informer()}, nil
 	case v1beta2.SchemeGroupVersion.WithResource("redisclusters"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisClusters().Informer()}, nil
-	case v1beta2.SchemeGroupVersion.WithResource("redislists"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisLists().Informer()}, nil
-	case v1beta2.SchemeGroupVersion.WithResource("redislists"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisLists().Informer()}, nil
-	case v1beta2.SchemeGroupVersion.WithResource("redislists"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisLists().Informer()}, nil
-	case v1beta2.SchemeGroupVersion.WithResource("redislists"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisLists().Informer()}, nil
 	case v1beta2.SchemeGroupVersion.WithResource("redisreplications"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisReplications().Informer()}, nil
 	case v1beta2.SchemeGroupVersion.WithResource("redisreplications"):
@@ -110,16 +110,24 @@ func (f *sharedInformerFactory) ForResource(resource schema.GroupVersionResource
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisReplications().Informer()}, nil
 	case v1beta2.SchemeGroupVersion.WithResource("redisreplications"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisReplications().Informer()}, nil
-	case v1beta2.SchemeGroupVersion.WithResource("redissentinellists"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisSentinelLists().Informer()}, nil
-	case v1beta2.SchemeGroupVersion.WithResource("redissentinellists"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisSentinelLists().Informer()}, nil
-	case v1beta2.SchemeGroupVersion.WithResource("redissentinellists"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisSentinelLists().Informer()}, nil
-	case v1beta2.SchemeGroupVersion.WithResource("redissentinellists"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisSentinelLists().Informer()}, nil
+	case v1beta2.SchemeGroupVersion.WithResource("redissentinels"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisSentinels().Informer()}, nil
+	case v1beta2.SchemeGroupVersion.WithResource("redissentinels"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisSentinels().Informer()}, nil
+	case v1beta2.SchemeGroupVersion.WithResource("redissentinels"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisSentinels().Informer()}, nil
+	case v1beta2.SchemeGroupVersion.WithResource("redissentinels"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisSentinels().Informer()}, nil
 
 		// Group=core, Version=v1beta2
+	case v1beta2.SchemeGroupVersion.WithResource("redises"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().Redises().Informer()}, nil
+	case v1beta2.SchemeGroupVersion.WithResource("redises"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().Redises().Informer()}, nil
+	case v1beta2.SchemeGroupVersion.WithResource("redises"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().Redises().Informer()}, nil
+	case v1beta2.SchemeGroupVersion.WithResource("redises"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().Redises().Informer()}, nil
 	case v1beta2.SchemeGroupVersion.WithResource("redisclusters"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisClusters().Informer()}, nil
 	case v1beta2.SchemeGroupVersion.WithResource("redisclusters"):
@@ -128,14 +136,6 @@ func (f *sharedInformerFactory) ForResource(resource schema.GroupVersionResource
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisClusters().Informer()}, nil
 	case v1beta2.SchemeGroupVersion.WithResource("redisclusters"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisClusters().Informer()}, nil
-	case v1beta2.SchemeGroupVersion.WithResource("redislists"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisLists().Informer()}, nil
-	case v1beta2.SchemeGroupVersion.WithResource("redislists"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisLists().Informer()}, nil
-	case v1beta2.SchemeGroupVersion.WithResource("redislists"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisLists().Informer()}, nil
-	case v1beta2.SchemeGroupVersion.WithResource("redislists"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisLists().Informer()}, nil
 	case v1beta2.SchemeGroupVersion.WithResource("redisreplications"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisReplications().Informer()}, nil
 	case v1beta2.SchemeGroupVersion.WithResource("redisreplications"):
@@ -144,16 +144,24 @@ func (f *sharedInformerFactory) ForResource(resource schema.GroupVersionResource
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisReplications().Informer()}, nil
 	case v1beta2.SchemeGroupVersion.WithResource("redisreplications"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisReplications().Informer()}, nil
-	case v1beta2.SchemeGroupVersion.WithResource("redissentinellists"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisSentinelLists().Informer()}, nil
-	case v1beta2.SchemeGroupVersion.WithResource("redissentinellists"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisSentinelLists().Informer()}, nil
-	case v1beta2.SchemeGroupVersion.WithResource("redissentinellists"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisSentinelLists().Informer()}, nil
-	case v1beta2.SchemeGroupVersion.WithResource("redissentinellists"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisSentinelLists().Informer()}, nil
+	case v1beta2.SchemeGroupVersion.WithResource("redissentinels"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisSentinels().Informer()}, nil
+	case v1beta2.SchemeGroupVersion.WithResource("redissentinels"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisSentinels().Informer()}, nil
+	case v1beta2.SchemeGroupVersion.WithResource("redissentinels"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisSentinels().Informer()}, nil
+	case v1beta2.SchemeGroupVersion.WithResource("redissentinels"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisSentinels().Informer()}, nil
 
 		// Group=core, Version=v1beta2
+	case v1beta2.SchemeGroupVersion.WithResource("redises"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().Redises().Informer()}, nil
+	case v1beta2.SchemeGroupVersion.WithResource("redises"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().Redises().Informer()}, nil
+	case v1beta2.SchemeGroupVersion.WithResource("redises"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().Redises().Informer()}, nil
+	case v1beta2.SchemeGroupVersion.WithResource("redises"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().Redises().Informer()}, nil
 	case v1beta2.SchemeGroupVersion.WithResource("redisclusters"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisClusters().Informer()}, nil
 	case v1beta2.SchemeGroupVersion.WithResource("redisclusters"):
@@ -162,14 +170,6 @@ func (f *sharedInformerFactory) ForResource(resource schema.GroupVersionResource
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisClusters().Informer()}, nil
 	case v1beta2.SchemeGroupVersion.WithResource("redisclusters"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisClusters().Informer()}, nil
-	case v1beta2.SchemeGroupVersion.WithResource("redislists"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisLists().Informer()}, nil
-	case v1beta2.SchemeGroupVersion.WithResource("redislists"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisLists().Informer()}, nil
-	case v1beta2.SchemeGroupVersion.WithResource("redislists"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisLists().Informer()}, nil
-	case v1beta2.SchemeGroupVersion.WithResource("redislists"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisLists().Informer()}, nil
 	case v1beta2.SchemeGroupVersion.WithResource("redisreplications"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisReplications().Informer()}, nil
 	case v1beta2.SchemeGroupVersion.WithResource("redisreplications"):
@@ -178,14 +178,14 @@ func (f *sharedInformerFactory) ForResource(resource schema.GroupVersionResource
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisReplications().Informer()}, nil
 	case v1beta2.SchemeGroupVersion.WithResource("redisreplications"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisReplications().Informer()}, nil
-	case v1beta2.SchemeGroupVersion.WithResource("redissentinellists"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisSentinelLists().Informer()}, nil
-	case v1beta2.SchemeGroupVersion.WithResource("redissentinellists"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisSentinelLists().Informer()}, nil
-	case v1beta2.SchemeGroupVersion.WithResource("redissentinellists"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisSentinelLists().Informer()}, nil
-	case v1beta2.SchemeGroupVersion.WithResource("redissentinellists"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisSentinelLists().Informer()}, nil
+	case v1beta2.SchemeGroupVersion.WithResource("redissentinels"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisSentinels().Informer()}, nil
+	case v1beta2.SchemeGroupVersion.WithResource("redissentinels"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisSentinels().Informer()}, nil
+	case v1beta2.SchemeGroupVersion.WithResource("redissentinels"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisSentinels().Informer()}, nil
+	case v1beta2.SchemeGroupVersion.WithResource("redissentinels"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1beta2().RedisSentinels().Informer()}, nil
 
 	}
 

@@ -44,6 +44,8 @@ type RedisSentinelConfig struct {
 type RedisSentinelStatus struct {
 }
 
+//+genclient
+//+k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 //+kubebuilder:storageversion
@@ -57,7 +59,6 @@ type RedisSentinel struct {
 	Status RedisSentinelStatus `json:"status,omitempty"`
 }
 
-// +genclient
 // +kubebuilder:object:root=true
 
 // RedisList contains a list of Redis

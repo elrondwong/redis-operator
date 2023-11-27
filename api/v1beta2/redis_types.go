@@ -53,6 +53,8 @@ type RedisSpec struct {
 type RedisStatus struct {
 }
 
+//+genclient
+//+k8s:deepcopy-gen:interfaces=k8s.io/kubernetes/runtime.Object,k8s.io/kubernetes/runtime.List
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
@@ -66,7 +68,6 @@ type Redis struct {
 	Status RedisStatus `json:"status,omitempty"`
 }
 
-// +genclient
 // +kubebuilder:object:root=true
 
 // RedisList contains a list of Redis

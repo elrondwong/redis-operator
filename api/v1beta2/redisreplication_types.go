@@ -39,7 +39,8 @@ func (cr *RedisReplicationSpec) GetReplicationCounts(t string) int32 {
 type RedisReplicationStatus struct {
 }
 
-// +genclient
+//+genclient
+//+k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion

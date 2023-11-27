@@ -22,68 +22,68 @@ import (
 	time "time"
 
 	apiv1beta2 "github.com/elrondwong/redis-operator/api/v1beta2"
-	versioned "github.com/elrondwong/redis-operator/generated/clientset/versioned"
-	internalinterfaces "github.com/elrondwong/redis-operator/generated/informers/externalversions/internalinterfaces"
-	v1beta2 "github.com/elrondwong/redis-operator/generated/listers/core/v1beta2"
+	internalinterfaces "github.com/elrondwong/redis-operator/generated/clientset/externalversions/internalinterfaces"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 	watch "k8s.io/apimachinery/pkg/watch"
 	cache "k8s.io/client-go/tools/cache"
+	clientset "github.com/elrondwong/redis-operator/generated/clientset/versioned"
+	v1beta2 "github.com/elrondwong/redis-operator/generated/listers/core/v1beta2"
 )
 
-// RedisListInformer provides access to a shared informer and lister for
-// RedisLists.
-type RedisListInformer interface {
+// RedisInformer provides access to a shared informer and lister for
+// Redises.
+type RedisInformer interface {
 	Informer() cache.SharedIndexInformer
-	Lister() v1beta2.RedisListLister
+	Lister() v1beta2.RedisLister
 }
 
-type redisListInformer struct {
+type redisInformer struct {
 	factory          internalinterfaces.SharedInformerFactory
 	tweakListOptions internalinterfaces.TweakListOptionsFunc
 	namespace        string
 }
 
-// NewRedisListInformer constructs a new informer for RedisList type.
+// NewRedisInformer constructs a new informer for Redis type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewRedisListInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
-	return NewFilteredRedisListInformer(client, namespace, resyncPeriod, indexers, nil)
+func NewRedisInformer(client clientset.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
+	return NewFilteredRedisInformer(client, namespace, resyncPeriod, indexers, nil)
 }
 
-// NewFilteredRedisListInformer constructs a new informer for RedisList type.
+// NewFilteredRedisInformer constructs a new informer for Redis type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewFilteredRedisListInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
+func NewFilteredRedisInformer(client clientset.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
 	return cache.NewSharedIndexInformer(
 		&cache.ListWatch{
 			ListFunc: func(options v1.ListOptions) (runtime.Object, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.CoreV1beta2().RedisLists(namespace).List(context.TODO(), options)
+				return client.V1beta2().Redises(namespace).List(context.TODO(), options)
 			},
 			WatchFunc: func(options v1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.CoreV1beta2().RedisLists(namespace).Watch(context.TODO(), options)
+				return client.V1beta2().Redises(namespace).Watch(context.TODO(), options)
 			},
 		},
-		&apiv1beta2.RedisList{},
+		&apiv1beta2.Redis{},
 		resyncPeriod,
 		indexers,
 	)
 }
 
-func (f *redisListInformer) defaultInformer(client versioned.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
-	return NewFilteredRedisListInformer(client, f.namespace, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
+func (f *redisInformer) defaultInformer(client clientset.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
+	return NewFilteredRedisInformer(client, f.namespace, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
 }
 
-func (f *redisListInformer) Informer() cache.SharedIndexInformer {
-	return f.factory.InformerFor(&apiv1beta2.RedisList{}, f.defaultInformer)
+func (f *redisInformer) Informer() cache.SharedIndexInformer {
+	return f.factory.InformerFor(&apiv1beta2.Redis{}, f.defaultInformer)
 }
 
-func (f *redisListInformer) Lister() v1beta2.RedisListLister {
-	return v1beta2.NewRedisListLister(f.Informer().GetIndexer())
+func (f *redisInformer) Lister() v1beta2.RedisLister {
+	return v1beta2.NewRedisLister(f.Informer().GetIndexer())
 }
