@@ -118,7 +118,9 @@ function kube::codegen::gen_helpers() {
     # Deepcopy
     #
     local input_pkgs=()
+    echo "file--------------$file"
     while read -r file; do
+        echo "${file}"
         dir="$(dirname "${file}")"
         pkg="$(cd "${dir}" && GO111MODULE=on go list -find .)"
         input_pkgs+=("${pkg}")

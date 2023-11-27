@@ -23,9 +23,13 @@ SCRIPT_ROOT="${SCRIPT_DIR}/.."
 CODEGEN_PKG=$SCRIPT_DIR
 source "${CODEGEN_PKG}/kube_codegen.sh"
 
+client-gen -v 0 --go-header-file hack/boilerplate.go.txt --clientset-name versioned --input-base github.com/elrondwong/redis-operator/api --output-package github.com/elrondwong/redis-operator/generated/clientset --input=v1beta2
+lister-gen -v 0 --go-header-file hack/boilerplate.go.txt  --input-dirs github.com/elrondwong/redis-operator/api/v1beta2 --output-package github.com/elrondwong/redis-operator/generated/clientset
+informer-gen -v 0 --go-header-file hack/boilerplate.go.txt  --input-dirs github.com/elrondwong/redis-operator/api/v1beta2 --output-package github.com/elrondwong/redis-operator/generated/clientset
+
 kube::codegen::gen_client \
     --with-watch \
-    --input-pkg-root github.com/elrondwong/redis-operator/api \
+    --input-pkg-root github.com/elrondwong/redis-operator/api/v1beta2 \
     --output-pkg-root github.com/elrondwong/redis-operator/generated \
     --output-base "$(dirname "${BASH_SOURCE[0]}")/../../../.." \
     --boilerplate "${SCRIPT_ROOT}/hack/boilerplate.go.txt"

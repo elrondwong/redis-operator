@@ -31,59 +31,59 @@ import (
 	cache "k8s.io/client-go/tools/cache"
 )
 
-// RedisSentinelListInformer provides access to a shared informer and lister for
-// RedisSentinelLists.
-type RedisSentinelListInformer interface {
+// RedisSentinelInformer provides access to a shared informer and lister for
+// RedisSentinels.
+type RedisSentinelInformer interface {
 	Informer() cache.SharedIndexInformer
-	Lister() v1beta2.RedisSentinelListLister
+	Lister() v1beta2.RedisSentinelLister
 }
 
-type redisSentinelListInformer struct {
+type redisSentinelInformer struct {
 	factory          internalinterfaces.SharedInformerFactory
 	tweakListOptions internalinterfaces.TweakListOptionsFunc
 	namespace        string
 }
 
-// NewRedisSentinelListInformer constructs a new informer for RedisSentinelList type.
+// NewRedisSentinelInformer constructs a new informer for RedisSentinel type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewRedisSentinelListInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
-	return NewFilteredRedisSentinelListInformer(client, namespace, resyncPeriod, indexers, nil)
+func NewRedisSentinelInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
+	return NewFilteredRedisSentinelInformer(client, namespace, resyncPeriod, indexers, nil)
 }
 
-// NewFilteredRedisSentinelListInformer constructs a new informer for RedisSentinelList type.
+// NewFilteredRedisSentinelInformer constructs a new informer for RedisSentinel type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewFilteredRedisSentinelListInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
+func NewFilteredRedisSentinelInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
 	return cache.NewSharedIndexInformer(
 		&cache.ListWatch{
 			ListFunc: func(options v1.ListOptions) (runtime.Object, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.CoreV1beta2().RedisSentinelLists(namespace).List(context.TODO(), options)
+				return client.CoreV1beta2().RedisSentinels(namespace).List(context.TODO(), options)
 			},
 			WatchFunc: func(options v1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.CoreV1beta2().RedisSentinelLists(namespace).Watch(context.TODO(), options)
+				return client.CoreV1beta2().RedisSentinels(namespace).Watch(context.TODO(), options)
 			},
 		},
-		&apiv1beta2.RedisSentinelList{},
+		&apiv1beta2.RedisSentinel{},
 		resyncPeriod,
 		indexers,
 	)
 }
 
-func (f *redisSentinelListInformer) defaultInformer(client versioned.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
-	return NewFilteredRedisSentinelListInformer(client, f.namespace, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
+func (f *redisSentinelInformer) defaultInformer(client versioned.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
+	return NewFilteredRedisSentinelInformer(client, f.namespace, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
 }
 
-func (f *redisSentinelListInformer) Informer() cache.SharedIndexInformer {
-	return f.factory.InformerFor(&apiv1beta2.RedisSentinelList{}, f.defaultInformer)
+func (f *redisSentinelInformer) Informer() cache.SharedIndexInformer {
+	return f.factory.InformerFor(&apiv1beta2.RedisSentinel{}, f.defaultInformer)
 }
 
-func (f *redisSentinelListInformer) Lister() v1beta2.RedisSentinelListLister {
-	return v1beta2.NewRedisSentinelListLister(f.Informer().GetIndexer())
+func (f *redisSentinelInformer) Lister() v1beta2.RedisSentinelLister {
+	return v1beta2.NewRedisSentinelLister(f.Informer().GetIndexer())
 }
