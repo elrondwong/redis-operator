@@ -56,7 +56,11 @@ func UpdateRedisStandaloneStatus(cr *redisv1beta2.Redis, status status.RedisStan
 	cr.Status.State = status
 	cr.Status.Reason = resaon
 
-	client := generateK8sDynamicClient()
+	client, err := GenerateK8sDynamicClient(GenerateK8sConfig)
+    if err !=nil {
+        logger.Error(err, "Failed to generate k8s dynamic client")
+        return err
+    }
 	gvr := schema.GroupVersionResource{
 		Group:    "redis.redis.opstreelabs.in",
 		Version:  "v1beta2",
@@ -82,7 +86,11 @@ func UpdateRedisSentinelStatus(cr *redisv1beta2.RedisSentinel, status status.Red
 	cr.Status.State = status
 	cr.Status.Reason = resaon
 
-	client := generateK8sDynamicClient()
+    client, err := GenerateK8sDynamicClient(GenerateK8sConfig)
+    if err !=nil {
+        logger.Error(err, "Failed to generate k8s dynamic client")
+        return err
+    }
 	gvr := schema.GroupVersionResource{
 		Group:    "redis.redis.opstreelabs.in",
 		Version:  "v1beta2",
@@ -108,7 +116,11 @@ func UpdateRedisReplicationStatus(cr *redisv1beta2.RedisReplication, status stat
 	cr.Status.State = status
 	cr.Status.Reason = resaon
 
-	client := generateK8sDynamicClient()
+    client, err := GenerateK8sDynamicClient(GenerateK8sConfig)
+    if err !=nil {
+        logger.Error(err, "Failed to generate k8s dynamic client")
+        return err
+    }
 	gvr := schema.GroupVersionResource{
 		Group:    "redis.redis.opstreelabs.in",
 		Version:  "v1beta2",

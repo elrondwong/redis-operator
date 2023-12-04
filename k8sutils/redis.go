@@ -586,7 +586,10 @@ func CreateMasterSlaveReplication(ctx context.Context, client kubernetes.Interfa
 func CheckRedisStandaloneReady(cr *redisv1beta2.Redis) bool {
 	objName := cr.Name
 	objNamespace := cr.Namespace
-	client := generateK8sClient()
+	client, err :=  GenerateK8sClient(GenerateK8sConfig)
+    if err != nil {
+        return false
+    }
 	sts, err := client.AppsV1().StatefulSets(objNamespace).Get(context.Background(), objName, metav1.GetOptions{})
 	if err != nil {
 		// Handle error
@@ -607,7 +610,10 @@ func CheckRedisStandaloneReady(cr *redisv1beta2.Redis) bool {
 func CheckRedisSentinelReady(cr *redisv1beta2.RedisSentinel) bool {
 	objName := cr.Name
 	objNamespace := cr.Namespace
-	client := generateK8sClient()
+    client, err :=  GenerateK8sClient(GenerateK8sConfig)
+    if err != nil {
+        return false
+    }
 	sts, err := client.AppsV1().StatefulSets(objNamespace).Get(context.Background(), objName, metav1.GetOptions{})
 	if err != nil {
 		// Handle error
@@ -625,7 +631,10 @@ func CheckRedisSentinelReady(cr *redisv1beta2.RedisSentinel) bool {
 func CheckRedisReplicationReady(cr *redisv1beta2.RedisReplication) bool {
 	objName := cr.Name
 	objNamespace := cr.Namespace
-	client := generateK8sClient()
+	client, err := GenerateK8sClient(GenerateK8sConfig)
+    if err != nil {
+        return false
+    }
 	sts, err := client.AppsV1().StatefulSets(objNamespace).Get(context.Background(), objName, metav1.GetOptions{})
 	if err != nil {
 		// Handle error
