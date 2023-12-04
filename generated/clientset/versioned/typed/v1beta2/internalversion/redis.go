@@ -29,10 +29,10 @@ import (
 	rest "k8s.io/client-go/rest"
 )
 
-// RedisesGetter has a method to return a RedisInterface.
+// RedisGetter has a method to return a RedisInterface.
 // A group's client should implement this interface.
-type RedisesGetter interface {
-	Redises(namespace string) RedisInterface
+type RedisGetter interface {
+	Redis(namespace string) RedisInterface
 }
 
 // RedisInterface has methods to work with Redis resources.
@@ -49,22 +49,22 @@ type RedisInterface interface {
 	RedisExpansion
 }
 
-// redises implements RedisInterface
-type redises struct {
+// redis implements RedisInterface
+type redis struct {
 	client rest.Interface
 	ns     string
 }
 
-// newRedises returns a Redises
-func newRedises(c *V1beta2Client, namespace string) *redises {
-	return &redises{
+// newRedis returns a Redis
+func newRedis(c *V1beta2Client, namespace string) *redis {
+	return &redis{
 		client: c.RESTClient(),
 		ns:     namespace,
 	}
 }
 
 // Get takes name of the redis, and returns the corresponding redis object, and an error if there is any.
-func (c *redises) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1beta2.Redis, err error) {
+func (c *redis) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1beta2.Redis, err error) {
 	result = &v1beta2.Redis{}
 	err = c.client.Get().
 		Namespace(c.ns).
@@ -76,8 +76,8 @@ func (c *redises) Get(ctx context.Context, name string, options v1.GetOptions) (
 	return
 }
 
-// List takes label and field selectors, and returns the list of Redises that match those selectors.
-func (c *redises) List(ctx context.Context, opts v1.ListOptions) (result *v1beta2.RedisList, err error) {
+// List takes label and field selectors, and returns the list of Redis that match those selectors.
+func (c *redis) List(ctx context.Context, opts v1.ListOptions) (result *v1beta2.RedisList, err error) {
 	var timeout time.Duration
 	if opts.TimeoutSeconds != nil {
 		timeout = time.Duration(*opts.TimeoutSeconds) * time.Second
@@ -93,8 +93,8 @@ func (c *redises) List(ctx context.Context, opts v1.ListOptions) (result *v1beta
 	return
 }
 
-// Watch returns a watch.Interface that watches the requested redises.
-func (c *redises) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
+// Watch returns a watch.Interface that watches the requested redis.
+func (c *redis) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
 	var timeout time.Duration
 	if opts.TimeoutSeconds != nil {
 		timeout = time.Duration(*opts.TimeoutSeconds) * time.Second
@@ -109,7 +109,7 @@ func (c *redises) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interfa
 }
 
 // Create takes the representation of a redis and creates it.  Returns the server's representation of the redis, and an error, if there is any.
-func (c *redises) Create(ctx context.Context, redis *v1beta2.Redis, opts v1.CreateOptions) (result *v1beta2.Redis, err error) {
+func (c *redis) Create(ctx context.Context, redis *v1beta2.Redis, opts v1.CreateOptions) (result *v1beta2.Redis, err error) {
 	result = &v1beta2.Redis{}
 	err = c.client.Post().
 		Namespace(c.ns).
@@ -122,7 +122,7 @@ func (c *redises) Create(ctx context.Context, redis *v1beta2.Redis, opts v1.Crea
 }
 
 // Update takes the representation of a redis and updates it. Returns the server's representation of the redis, and an error, if there is any.
-func (c *redises) Update(ctx context.Context, redis *v1beta2.Redis, opts v1.UpdateOptions) (result *v1beta2.Redis, err error) {
+func (c *redis) Update(ctx context.Context, redis *v1beta2.Redis, opts v1.UpdateOptions) (result *v1beta2.Redis, err error) {
 	result = &v1beta2.Redis{}
 	err = c.client.Put().
 		Namespace(c.ns).
@@ -137,7 +137,7 @@ func (c *redises) Update(ctx context.Context, redis *v1beta2.Redis, opts v1.Upda
 
 // UpdateStatus was generated because the type contains a Status member.
 // Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
-func (c *redises) UpdateStatus(ctx context.Context, redis *v1beta2.Redis, opts v1.UpdateOptions) (result *v1beta2.Redis, err error) {
+func (c *redis) UpdateStatus(ctx context.Context, redis *v1beta2.Redis, opts v1.UpdateOptions) (result *v1beta2.Redis, err error) {
 	result = &v1beta2.Redis{}
 	err = c.client.Put().
 		Namespace(c.ns).
@@ -152,7 +152,7 @@ func (c *redises) UpdateStatus(ctx context.Context, redis *v1beta2.Redis, opts v
 }
 
 // Delete takes name of the redis and deletes it. Returns an error if one occurs.
-func (c *redises) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
+func (c *redis) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
 	return c.client.Delete().
 		Namespace(c.ns).
 		Resource("redis").
@@ -163,7 +163,7 @@ func (c *redises) Delete(ctx context.Context, name string, opts v1.DeleteOptions
 }
 
 // DeleteCollection deletes a collection of objects.
-func (c *redises) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
+func (c *redis) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
 	var timeout time.Duration
 	if listOpts.TimeoutSeconds != nil {
 		timeout = time.Duration(*listOpts.TimeoutSeconds) * time.Second
@@ -179,7 +179,7 @@ func (c *redises) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, l
 }
 
 // Patch applies the patch and returns the patched redis.
-func (c *redises) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1beta2.Redis, err error) {
+func (c *redis) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1beta2.Redis, err error) {
 	result = &v1beta2.Redis{}
 	err = c.client.Patch(pt).
 		Namespace(c.ns).

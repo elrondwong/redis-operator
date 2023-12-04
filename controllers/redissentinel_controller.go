@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/elrondwong/redis-operator/api/status"
 	redisv1beta2 "github.com/elrondwong/redis-operator/api/v1beta2"
 	"github.com/elrondwong/redis-operator/k8sutils"
 	"github.com/go-logr/logr"
@@ -54,6 +55,13 @@ func (r *RedisSentinelReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 		return ctrl.Result{RequeueAfter: time.Second * 60}, err
 	}
 
+	if instance.Status.State != status.RedisSenitnelReady {
+		err = k8sutils.UpdateRedisSentinelStatus(instance, status.RedisSentinelInitializing, status.InitializingSentinelReason)
+		if err != nil {
+			return ctrl.Result{RequeueAfter: time.Second * 10}, err
+		}
+	}
+
 	// Create Redis Sentinel
 	err = k8sutils.CreateRedisSentinel(ctx, r.K8sClient, r.Log, instance)
 	if err != nil {
@@ -69,6 +77,13 @@ func (r *RedisSentinelReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 	err = k8sutils.CreateRedisSentinelService(instance)
 	if err != nil {
 		return ctrl.Result{}, err
+	}
+
+	if instance.Status.State != status.RedisSenitnelReady && k8sutils.CheckRedisSentinelReady(instance) {
+		err = k8sutils.UpdateRedisSentinelStatus(instance, status.RedisSenitnelReady, status.ReadySentinelReason)
+		if err != nil {
+			return ctrl.Result{RequeueAfter: time.Second * 10}, err
+		}
 	}
 
 	reqLogger.Info("Will reconcile redis operator in again 10 seconds")

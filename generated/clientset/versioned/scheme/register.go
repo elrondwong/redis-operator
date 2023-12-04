@@ -36,5 +36,5 @@ func init() {
 
 // Install registers the API group and adds types to a scheme
 func Install(scheme *runtime.Scheme) {
-    v1beta2.AddToScheme(scheme)
+	v1beta2.AddToScheme(scheme)
 }

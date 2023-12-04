@@ -169,9 +169,9 @@ $ helm upgrade redis-cluster ot-helm/redis-cluster \n
 
 ## Docker Image Development
 
-Development of redis docker image is maintained inside a different repository - https://github.com/OT-CONTAINER-KIT/redis. To make any change or suggestion related to Redis docker image, please refer to this repository and make required changes.
+Development of redis docker image is maintained inside a different repository - https://github.com/elrondwong/redis. To make any change or suggestion related to Redis docker image, please refer to this repository and make required changes.
 
-In the repository, we have `Dockerfile` for [Redis](https://github.com/OT-CONTAINER-KIT/redis/blob/master/Dockerfile) and [Redis Exporter](https://github.com/OT-CONTAINER-KIT/redis/blob/master/Dockerfile.exporter)
+In the repository, we have `Dockerfile` for [Redis](https://github.com/elrondwong/redis/blob/master/Dockerfile) and [Redis Exporter](https://github.com/elrondwong/redis/blob/master/Dockerfile.exporter)
 
 For building the docker image for redis and redis exporter, there are simple make commands:
 

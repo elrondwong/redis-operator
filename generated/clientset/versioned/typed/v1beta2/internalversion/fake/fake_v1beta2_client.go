@@ -27,8 +27,8 @@ type FakeV1beta2 struct {
 	*testing.Fake
 }
 
-func (c *FakeV1beta2) Redises(namespace string) internalversion.RedisInterface {
-	return &FakeRedises{c, namespace}
+func (c *FakeV1beta2) Redis(namespace string) internalversion.RedisInterface {
+	return &FakeRedis{c, namespace}
 }
 
 func (c *FakeV1beta2) RedisClusters(namespace string) internalversion.RedisClusterInterface {

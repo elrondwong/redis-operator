@@ -26,7 +26,7 @@ import (
 
 type V1beta2Interface interface {
 	RESTClient() rest.Interface
-	RedisesGetter
+	RedisGetter
 	RedisClustersGetter
 	RedisReplicationsGetter
 	RedisSentinelsGetter
@@ -37,8 +37,8 @@ type V1beta2Client struct {
 	restClient rest.Interface
 }
 
-func (c *V1beta2Client) Redises(namespace string) RedisInterface {
-	return newRedises(c, namespace)
+func (c *V1beta2Client) Redis(namespace string) RedisInterface {
+	return newRedis(c, namespace)
 }
 
 func (c *V1beta2Client) RedisClusters(namespace string) RedisClusterInterface {
@@ -102,8 +102,8 @@ func setConfigDefaults(config *rest.Config) error {
 	if config.UserAgent == "" {
 		config.UserAgent = rest.DefaultKubernetesUserAgent()
 	}
-	if config.GroupVersion == nil || config.GroupVersion.Group != scheme.Scheme.PrioritizedVersionsForGroup("redis.redis.opstreelabs.in")[0].Group {
-		gv := scheme.Scheme.PrioritizedVersionsForGroup("redis.redis.opstreelabs.in")[0]
+	if config.GroupVersion == nil || config.GroupVersion.Group != scheme.Scheme.PrioritizedVersionsForGroup("v1beta2")[0].Group {
+		gv := scheme.Scheme.PrioritizedVersionsForGroup("v1beta2")[0]
 		config.GroupVersion = &gv
 	}
 	config.NegotiatedSerializer = scheme.Codecs

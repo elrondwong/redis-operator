@@ -8,9 +8,9 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/banzaicloud/k8s-objectmatcher/patch"
 	commonapi "github.com/elrondwong/redis-operator/api"
 	redisv1beta2 "github.com/elrondwong/redis-operator/api/v1beta2"
-	"github.com/banzaicloud/k8s-objectmatcher/patch"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	appsv1 "k8s.io/api/apps/v1"

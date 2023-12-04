@@ -27,7 +27,7 @@ kind create cluster --config tests/_config/kind-config.yaml
 
 To install the Redis operator, utilize the Helm chart from the repository provided:
 
-- [OT-CONTAINER-KIT Redis Operator Helm Chart](https://github.com/OT-CONTAINER-KIT/helm-charts/tree/main/charts/redis-operator#readme)
+- [OT-CONTAINER-KIT Redis Operator Helm Chart](https://github.com/elrondwong/helm-charts/tree/main/charts/redis-operator#readme)
 
 Please refer to the repository's README for detailed instructions on installing the operator using Helm.
 

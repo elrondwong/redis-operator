@@ -24,14 +24,14 @@ import (
 	"k8s.io/client-go/tools/cache"
 )
 
-// RedisLister helps list Redises.
+// RedisLister helps list Redis.
 // All objects returned here must be treated as read-only.
 type RedisLister interface {
-	// List lists all Redises in the indexer.
+	// List lists all Redis in the indexer.
 	// Objects returned here must be treated as read-only.
 	List(selector labels.Selector) (ret []*v1beta2.Redis, err error)
-	// Redises returns an object that can list and get Redises.
-	Redises(namespace string) RedisNamespaceLister
+	// Redis returns an object that can list and get Redis.
+	Redis(namespace string) RedisNamespaceLister
 	RedisListerExpansion
 }
 
@@ -45,7 +45,7 @@ func NewRedisLister(indexer cache.Indexer) RedisLister {
 	return &redisLister{indexer: indexer}
 }
 
-// List lists all Redises in the indexer.
+// List lists all Redis in the indexer.
 func (s *redisLister) List(selector labels.Selector) (ret []*v1beta2.Redis, err error) {
 	err = cache.ListAll(s.indexer, selector, func(m interface{}) {
 		ret = append(ret, m.(*v1beta2.Redis))
@@ -53,15 +53,15 @@ func (s *redisLister) List(selector labels.Selector) (ret []*v1beta2.Redis, err 
 	return ret, err
 }
 
-// Redises returns an object that can list and get Redises.
-func (s *redisLister) Redises(namespace string) RedisNamespaceLister {
+// Redis returns an object that can list and get Redis.
+func (s *redisLister) Redis(namespace string) RedisNamespaceLister {
 	return redisNamespaceLister{indexer: s.indexer, namespace: namespace}
 }
 
-// RedisNamespaceLister helps list and get Redises.
+// RedisNamespaceLister helps list and get Redis.
 // All objects returned here must be treated as read-only.
 type RedisNamespaceLister interface {
-	// List lists all Redises in the indexer for a given namespace.
+	// List lists all Redis in the indexer for a given namespace.
 	// Objects returned here must be treated as read-only.
 	List(selector labels.Selector) (ret []*v1beta2.Redis, err error)
 	// Get retrieves the Redis from the indexer for a given namespace and name.
@@ -77,7 +77,7 @@ type redisNamespaceLister struct {
 	namespace string
 }
 
-// List lists all Redises in the indexer for a given namespace.
+// List lists all Redis in the indexer for a given namespace.
 func (s redisNamespaceLister) List(selector labels.Selector) (ret []*v1beta2.Redis, err error) {
 	err = cache.ListAllByNamespace(s.indexer, s.namespace, selector, func(m interface{}) {
 		ret = append(ret, m.(*v1beta2.Redis))

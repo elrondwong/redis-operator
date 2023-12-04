@@ -22,10 +22,23 @@ SCRIPT_DIR="$(dirname "${BASH_SOURCE[0]}")"
 SCRIPT_ROOT="${SCRIPT_DIR}/.."
 CODEGEN_PKG=$SCRIPT_DIR
 source "${CODEGEN_PKG}/kube_codegen.sh"
+client-gen -v 0 --go-header-file hack/boilerplate.go.txt \
+  --clientset-name=versioned --plural-exceptions "Redis:Redis" \
+  --input-base github.com/elrondwong/redis-operator/api \
+  --output-package github.com/elrondwong/redis-operator/generated/clientset \
+  --input=v1beta2
 
-client-gen -v 0 --go-header-file hack/boilerplate.go.txt --clientset-name versioned --input-base github.com/elrondwong/redis-operator/api --output-package github.com/elrondwong/redis-operator/generated/clientset --input=v1beta2
-lister-gen -v 0 --go-header-file hack/boilerplate.go.txt  --input-dirs github.com/elrondwong/redis-operator/api/v1beta2 --output-package github.com/elrondwong/redis-operator/generated/clientset
-informer-gen -v 0 --go-header-file hack/boilerplate.go.txt  --input-dirs github.com/elrondwong/redis-operator/api/v1beta2 --output-package github.com/elrondwong/redis-operator/generated/clientset
+lister-gen -v 0 --go-header-file hack/boilerplate.go.txt \
+  --plural-exceptions "Redis:Redis" \
+  --input-dirs github.com/elrondwong/redis-operator/api/v1beta2 \
+  --output-package github.com/elrondwong/redis-operator/generated/listers \
+
+informer-gen -v 0 --go-header-file hack/boilerplate.go.txt \
+  --plural-exceptions "Redis:Redis" \
+  --input-dirs github.com/elrondwong/redis-operator/api/v1beta2 \
+  --output-package github.com/elrondwong/redis-operator/generated/informers \
+  --versioned-clientset-package github.com/elrondwong/redis-operator/generated/clientset/versioned \
+  --listers-package github.com/elrondwong/redis-operator/generated/listers
 
 kube::codegen::gen_client \
     --with-watch \

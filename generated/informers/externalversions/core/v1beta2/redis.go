@@ -32,7 +32,7 @@ import (
 )
 
 // RedisInformer provides access to a shared informer and lister for
-// Redises.
+// Redis.
 type RedisInformer interface {
 	Informer() cache.SharedIndexInformer
 	Lister() v1beta2.RedisLister
@@ -61,13 +61,13 @@ func NewFilteredRedisInformer(client versioned.Interface, namespace string, resy
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.V1beta2().Redises(namespace).List(context.TODO(), options)
+				return client.V1beta2().Redis(namespace).List(context.TODO(), options)
 			},
 			WatchFunc: func(options v1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.V1beta2().Redises(namespace).Watch(context.TODO(), options)
+				return client.V1beta2().Redis(namespace).Watch(context.TODO(), options)
 			},
 		},
 		&apiv1beta2.Redis{},

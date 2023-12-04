@@ -5,6 +5,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/elrondwong/redis-operator/api/status"
 	redisv1beta2 "github.com/elrondwong/redis-operator/api/v1beta2"
 	"github.com/elrondwong/redis-operator/k8sutils"
 	"github.com/go-logr/logr"
@@ -56,6 +57,13 @@ func (r *RedisReplicationReconciler) Reconcile(ctx context.Context, req ctrl.Req
 		return ctrl.Result{}, err
 	}
 
+	if instance.Status.State != status.RedisReplicationReady {
+		err = k8sutils.UpdateRedisReplicationStatus(instance, status.RedisReplicationInitializing, status.InitializingReplicationReason)
+		if err != nil {
+			return ctrl.Result{RequeueAfter: time.Second * 10}, err
+		}
+	}
+
 	err = k8sutils.CreateReplicationRedis(instance)
 	if err != nil {
 		return ctrl.Result{}, err
@@ -81,6 +89,12 @@ func (r *RedisReplicationReconciler) Reconcile(ctx context.Context, req ctrl.Req
 	reqLogger.Info("Creating redis replication by executing replication creation commands", "Replication.Ready", strconv.Itoa(int(redisReplicationInfo.Status.ReadyReplicas)))
 
 	if len(k8sutils.GetRedisNodesByRole(ctx, r.K8sClient, r.Log, instance, "master")) > int(leaderReplicas) {
+		if instance.Status.State != status.RedisReplicationInitializing {
+			err = k8sutils.UpdateRedisReplicationStatus(instance, status.RedisReplicationBootstrap, status.BootstrapClusterReason)
+			if err != nil {
+				return ctrl.Result{RequeueAfter: time.Second * 10}, err
+			}
+		}
 
 		masterNodes := k8sutils.GetRedisNodesByRole(ctx, r.K8sClient, r.Log, instance, "master")
 		slaveNodes := k8sutils.GetRedisNodesByRole(ctx, r.K8sClient, r.Log, instance, "slave")
@@ -89,6 +103,13 @@ func (r *RedisReplicationReconciler) Reconcile(ctx context.Context, req ctrl.Req
 			return ctrl.Result{RequeueAfter: time.Second * 60}, err
 		}
 
+	}
+
+	if instance.Status.State != status.RedisReplicationReady && k8sutils.CheckRedisReplicationReady(instance) {
+		err = k8sutils.UpdateRedisReplicationStatus(instance, status.RedisReplicationReady, status.ReadyReplicationReason)
+		if err != nil {
+			return ctrl.Result{RequeueAfter: time.Second * 10}, err
+		}
 	}
 
 	reqLogger.Info("Will reconcile redis operator in again 10 seconds")
