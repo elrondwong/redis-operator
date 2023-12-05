@@ -47,6 +47,7 @@ func CreateReplicationService(cr *redisv1beta2.RedisReplication) error {
 	for i := 0; int32(i) < *cr.Spec.Size; i++ {
 		svcName := cr.ObjectMeta.Name + "-" + strconv.Itoa(i)
 		labels["statefulset.kubernetes.io/pod-name"] = svcName
+        delete(labels, "role")
 		podObjectMetaInfo := generateObjectMetaInformation(svcName, cr.Namespace, labels, annotations)
 		err = CreateOrUpdateService(cr.Namespace, podObjectMetaInfo, redisReplicationAsOwner(cr), enableMetrics, false, additionalServiceType)
 		if err != nil {
