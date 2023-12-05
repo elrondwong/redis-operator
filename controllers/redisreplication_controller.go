@@ -87,8 +87,9 @@ func (r *RedisReplicationReconciler) Reconcile(ctx context.Context, req ctrl.Req
 	}
 
 	reqLogger.Info("Creating redis replication by executing replication creation commands", "Replication.Ready", strconv.Itoa(int(redisReplicationInfo.Status.ReadyReplicas)))
-
-	if len(k8sutils.GetRedisNodesByRole(ctx, r.K8sClient, r.Log, instance, "master")) > int(leaderReplicas) {
+    masterNodes := k8sutils.GetRedisNodesByRole(ctx, r.K8sClient, r.Log, instance, "master")
+    slaveNodes := k8sutils.GetRedisNodesByRole(ctx, r.K8sClient, r.Log, instance, "slave")
+	if len(masterNodes) > int(leaderReplicas) {
 		if instance.Status.State != status.RedisReplicationInitializing {
 			err = k8sutils.UpdateRedisReplicationStatus(instance, status.RedisReplicationBootstrap, status.BootstrapClusterReason)
 			if err != nil {
@@ -96,14 +97,26 @@ func (r *RedisReplicationReconciler) Reconcile(ctx context.Context, req ctrl.Req
 			}
 		}
 
-		masterNodes := k8sutils.GetRedisNodesByRole(ctx, r.K8sClient, r.Log, instance, "master")
-		slaveNodes := k8sutils.GetRedisNodesByRole(ctx, r.K8sClient, r.Log, instance, "slave")
 		err := k8sutils.CreateMasterSlaveReplication(ctx, r.K8sClient, r.Log, instance, masterNodes, slaveNodes)
 		if err != nil {
 			return ctrl.Result{RequeueAfter: time.Second * 60}, err
 		}
 
 	}
+
+    // Labeling Pods
+    for _, master := range masterNodes {
+        err = k8sutils.AddLabelToPod(r.K8sClient, instance.Namespace, master, "role", "master")
+        if err != nil {
+            return ctrl.Result{RequeueAfter: time.Second * 10}, err
+        }
+    }
+    for _, slave := range slaveNodes {
+        err = k8sutils.AddLabelToPod(r.K8sClient, instance.Namespace, slave, "role", "slave")
+        if err != nil {
+            return ctrl.Result{RequeueAfter: time.Second * 10}, err
+        }
+    }
 
 	if instance.Status.State != status.RedisReplicationReady && k8sutils.CheckRedisReplicationReady(instance) {
 		err = k8sutils.UpdateRedisReplicationStatus(instance, status.RedisReplicationReady, status.ReadyReplicationReason)
