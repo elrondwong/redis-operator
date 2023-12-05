@@ -1,6 +1,10 @@
 package k8sutils
 
-import redisv1beta2 "github.com/elrondwong/redis-operator/api/v1beta2"
+import (
+	"strconv"
+
+	redisv1beta2 "github.com/elrondwong/redis-operator/api/v1beta2"
+)
 
 // CreateReplicationService method will create replication service for Redis
 func CreateReplicationService(cr *redisv1beta2.RedisReplication) error {
@@ -36,6 +40,39 @@ func CreateReplicationService(cr *redisv1beta2.RedisReplication) error {
 	err = CreateOrUpdateService(cr.Namespace, additionalObjectMetaInfo, redisReplicationAsOwner(cr), false, false, additionalServiceType)
 	if err != nil {
 		logger.Error(err, "Cannot create additional service for Redis Replication")
+		return err
+	}
+
+	// create service for per pod
+	for i := 0; int32(i) < *cr.Spec.Size; i++ {
+		delete(labels, "statefulset.kubernetes.io/pod-name")
+		svcName := cr.ObjectMeta.Name + "-" + strconv.Itoa(i)
+		labels["statefulset.kubernetes.io/pod-name"] = cr.ObjectMeta.Name + "-" + svcName
+		podObjectMetaInfo := generateObjectMetaInformation(svcName, cr.Namespace, labels, annotations)
+		err = CreateOrUpdateService(cr.Namespace, podObjectMetaInfo, redisReplicationAsOwner(cr), enableMetrics, false, additionalServiceType)
+		if err != nil {
+			logger.Error(err, "Cannot create replication service for pod %s", svcName)
+			return err
+		}
+	}
+
+	// create master service
+	masterSvcName := cr.ObjectMeta.Name + "-" + "master"
+	masterObjectMetaInfo := generateObjectMetaInformation(masterSvcName, cr.Namespace, labels, annotations)
+	labels["redis_role"] = "master"
+	err = CreateOrUpdateService(masterSvcName, masterObjectMetaInfo, redisReplicationAsOwner(cr), enableMetrics, false, additionalServiceType)
+	if err != nil {
+		logger.Error(err, "Cannot create master replication service")
+		return err
+	}
+
+	// create slave service
+	slaveSvcName := cr.ObjectMeta.Name + "-" + "master"
+	slaveObjectMetaInfo := generateObjectMetaInformation(masterSvcName, cr.Namespace, labels, annotations)
+	labels["redis_role"] = "slave"
+	err = CreateOrUpdateService(slaveSvcName, slaveObjectMetaInfo, redisReplicationAsOwner(cr), enableMetrics, false, additionalServiceType)
+	if err != nil {
+		logger.Error(err, "Cannot create master replication service")
 		return err
 	}
 	return nil

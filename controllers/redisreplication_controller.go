@@ -98,6 +98,21 @@ func (r *RedisReplicationReconciler) Reconcile(ctx context.Context, req ctrl.Req
 
 		masterNodes := k8sutils.GetRedisNodesByRole(ctx, r.K8sClient, r.Log, instance, "master")
 		slaveNodes := k8sutils.GetRedisNodesByRole(ctx, r.K8sClient, r.Log, instance, "slave")
+        // Labeling Pods
+        for _, master := range masterNodes {
+            err = k8sutils.AddLabelToPod(r.K8sClient, instance.Namespace, master, "redis_role", "master")
+            if err != nil {
+                return ctrl.Result{RequeueAfter: time.Second * 10}, err
+            }
+        }
+        for _, slave := range slaveNodes {
+            err = k8sutils.AddLabelToPod(r.K8sClient, instance.Namespace, slave, "redis_role", "slave")
+            if err != nil {
+                return ctrl.Result{RequeueAfter: time.Second * 10}, err
+            }
+        }
+
+
 		err := k8sutils.CreateMasterSlaveReplication(ctx, r.K8sClient, r.Log, instance, masterNodes, slaveNodes)
 		if err != nil {
 			return ctrl.Result{RequeueAfter: time.Second * 60}, err

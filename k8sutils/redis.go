@@ -614,7 +614,7 @@ func CheckRedisSentinelReady(cr *redisv1beta2.RedisSentinel) bool {
     if err != nil {
         return false
     }
-	sts, err := client.AppsV1().StatefulSets(objNamespace).Get(context.Background(), objName, metav1.GetOptions{})
+	sts, err := client.AppsV1().StatefulSets(objNamespace).Get(context.Background(), objName+"-sentinel", metav1.GetOptions{})
 	if err != nil {
 		// Handle error
 		return false
