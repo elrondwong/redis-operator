@@ -477,6 +477,19 @@ func enableRedisMonitoring(params containerParameters) corev1.Container {
 	if params.RedisExporterResources != nil {
 		exporterDefinition.Resources = *params.RedisExporterResources
 	}
+	if params.EnabledPassword != nil && *params.EnabledPassword {
+		exporterDefinition.Env = append(exporterDefinition.Env, corev1.EnvVar{
+			Name: "REDIS_PASSWORD",
+			ValueFrom: &corev1.EnvVarSource{
+				SecretKeyRef: &corev1.SecretKeySelector{
+					LocalObjectReference: corev1.LocalObjectReference{
+						Name: *params.SecretName,
+					},
+					Key: *params.SecretKey,
+				},
+			},
+		})
+	}
 	return exporterDefinition
 }
 

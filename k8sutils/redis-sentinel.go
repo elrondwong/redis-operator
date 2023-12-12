@@ -33,6 +33,11 @@ type RedisReplicationObject struct {
 	RedisReplication *redisv1beta2.RedisReplication
 }
 
+type RedisReplicationInfo struct {
+	MasterIP     string
+	MasterSecret commonapi.ExistingPasswordSecret
+}
+
 // Redis Sentinel Create the Redis Sentinel Setup
 func CreateRedisSentinel(ctx context.Context, client kubernetes.Interface, logger logr.Logger, cr *redisv1beta2.RedisSentinel) error {
 	prop := RedisSentinelSTS{
@@ -244,6 +249,8 @@ func getSentinelEnvVariable(ctx context.Context, client kubernetes.Interface, lo
 		return &[]corev1.EnvVar{}
 	}
 
+	redisReplicationInfo := getRedisReplicationInfo(ctx, client, logger, cr)
+
 	envVar := &[]corev1.EnvVar{
 		{
 			Name:  "MASTER_GROUP_NAME",
@@ -251,7 +258,7 @@ func getSentinelEnvVariable(ctx context.Context, client kubernetes.Interface, lo
 		},
 		{
 			Name:  "IP",
-			Value: getRedisReplicationMasterIP(ctx, client, logger, cr),
+			Value: getRedisReplicationInfo(ctx, client, logger, cr).MasterIP,
 		},
 		{
 			Name:  "PORT",
@@ -274,16 +281,28 @@ func getSentinelEnvVariable(ctx context.Context, client kubernetes.Interface, lo
 			Value: cr.Spec.RedisSentinelConfig.FailoverTimeout,
 		},
 	}
+	if &redisReplicationInfo.MasterSecret != nil {
+		*envVar = append(*envVar, corev1.EnvVar{
+			Name: "MASTER_PASSWORD",
+			ValueFrom: &corev1.EnvVarSource{
+				SecretKeyRef: &corev1.SecretKeySelector{
+					LocalObjectReference: corev1.LocalObjectReference{Name: *getRedisReplicationInfo(ctx, client, logger, cr).MasterSecret.Name},
+					Key:                  *getRedisReplicationInfo(ctx, client, logger, cr).MasterSecret.Key,
+				},
+			},
+		})
+	}
 
 	return envVar
 
 }
 
-func getRedisReplicationMasterIP(ctx context.Context, client kubernetes.Interface, logger logr.Logger, cr *redisv1beta2.RedisSentinel) string {
+func getRedisReplicationInfo(ctx context.Context, client kubernetes.Interface, logger logr.Logger, cr *redisv1beta2.RedisSentinel) *RedisReplicationInfo {
+	replicationInfo := &RedisReplicationInfo{}
 	dClient, err := GenerateK8sDynamicClient(GenerateK8sConfig)
 	if err != nil {
 		logger.Error(err, "Failed to generate dynamic client")
-		return ""
+		return nil
 	}
 
 	replicationName := cr.Spec.RedisSentinelConfig.RedisReplicationName
@@ -301,7 +320,7 @@ func getRedisReplicationMasterIP(ctx context.Context, client kubernetes.Interfac
 
 	if err != nil {
 		logger.Error(err, "Failed to Execute Get Request", "replication name", replicationName, "namespace", replicationNamespace)
-		return ""
+		return nil
 	} else {
 		logger.V(1).Info("Successfully Execute the Get Request", "replication name", replicationName, "namespace", replicationNamespace)
 	}
@@ -310,13 +329,13 @@ func getRedisReplicationMasterIP(ctx context.Context, client kubernetes.Interfac
 	replicationJSON, err := customObject.MarshalJSON()
 	if err != nil {
 		logger.Error(err, "Failed To Load JSON")
-		return ""
+		return nil
 	}
 
 	// Unmarshal The JSON on Object
 	if err := json.Unmarshal(replicationJSON, &replicationInstance); err != nil {
 		logger.Error(err, "Failed To Unmarshal JSON over the Object")
-		return ""
+		return nil
 	}
 
 	masterPods := GetRedisNodesByRole(ctx, client, logger, &replicationInstance, "master")
@@ -336,6 +355,12 @@ func getRedisReplicationMasterIP(ctx context.Context, client kubernetes.Interfac
 		Namespace: replicationNamespace,
 	}
 
-	realMasterPodIP := getRedisServerIP(client, logger, realMasterInfo)
-	return realMasterPodIP
+	replicationInfo.MasterIP = getRedisServerIP(client, logger, realMasterInfo)
+	if replicationInstance.Spec.KubernetesConfig.ExistingPasswordSecret != nil {
+		replicationInfo.MasterSecret = commonapi.ExistingPasswordSecret{
+			Name: replicationInstance.Spec.KubernetesConfig.ExistingPasswordSecret.Name,
+			Key:  replicationInstance.Spec.KubernetesConfig.ExistingPasswordSecret.Key,
+		}
+	}
+	return replicationInfo
 }
