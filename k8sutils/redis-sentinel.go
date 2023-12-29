@@ -250,6 +250,12 @@ func getSentinelEnvVariable(ctx context.Context, client kubernetes.Interface, lo
 	}
 
 	redisReplicationInfo := getRedisReplicationInfo(ctx, client, logger, cr)
+    var ip, secretName, secretKey string
+    if redisReplicationInfo != nil {
+        ip = redisReplicationInfo.MasterIP
+        secretName = *redisReplicationInfo.MasterSecret.Name
+        secretKey = *redisReplicationInfo.MasterSecret.Key
+    }
 
 	envVar := &[]corev1.EnvVar{
 		{
@@ -258,7 +264,7 @@ func getSentinelEnvVariable(ctx context.Context, client kubernetes.Interface, lo
 		},
 		{
 			Name:  "IP",
-			Value: getRedisReplicationInfo(ctx, client, logger, cr).MasterIP,
+			Value: ip,
 		},
 		{
 			Name:  "PORT",
@@ -286,8 +292,8 @@ func getSentinelEnvVariable(ctx context.Context, client kubernetes.Interface, lo
 			Name: "MASTER_PASSWORD",
 			ValueFrom: &corev1.EnvVarSource{
 				SecretKeyRef: &corev1.SecretKeySelector{
-					LocalObjectReference: corev1.LocalObjectReference{Name: *getRedisReplicationInfo(ctx, client, logger, cr).MasterSecret.Name},
-					Key:                  *getRedisReplicationInfo(ctx, client, logger, cr).MasterSecret.Key,
+					LocalObjectReference: corev1.LocalObjectReference{Name: secretName},
+					Key:                  secretKey,
 				},
 			},
 		})
