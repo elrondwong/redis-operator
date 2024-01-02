@@ -78,7 +78,7 @@ docker-create:
 
 # Build the docker image
 docker-build:
-	docker buildx build --platform="linux/arm64,linux/amd64" -t ${IMG} .
+	docker buildx build --load --platform="linux/amd64" -t ${IMG} .
 
 # Push the docker image
 docker-push:

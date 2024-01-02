@@ -249,13 +249,19 @@ func getSentinelEnvVariable(ctx context.Context, client kubernetes.Interface, lo
 		return &[]corev1.EnvVar{}
 	}
 
-	redisReplicationInfo := getRedisReplicationInfo(ctx, client, logger, cr)
-    var ip, secretName, secretKey string
-    if redisReplicationInfo != nil {
-        ip = redisReplicationInfo.MasterIP
-        secretName = *redisReplicationInfo.MasterSecret.Name
-        secretKey = *redisReplicationInfo.MasterSecret.Key
-    }
+	redisReplicationInfo, err := getRedisReplicationInfo(ctx, client, logger, cr)
+	if err != nil {
+		logger.Error(err, "Cannot get redis replication info", "Setup.Type", cr.Name)
+		return nil
+	}
+	var ip, secretName, secretKey string
+	ip = redisReplicationInfo.MasterIP
+	if redisReplicationInfo.MasterSecret.Name != nil {
+		secretName = *redisReplicationInfo.MasterSecret.Name
+	}
+	if redisReplicationInfo.MasterSecret.Key != nil {
+		secretKey = *redisReplicationInfo.MasterSecret.Key
+	}
 
 	envVar := &[]corev1.EnvVar{
 		{
@@ -287,7 +293,7 @@ func getSentinelEnvVariable(ctx context.Context, client kubernetes.Interface, lo
 			Value: cr.Spec.RedisSentinelConfig.FailoverTimeout,
 		},
 	}
-	if &redisReplicationInfo.MasterSecret != nil {
+	if redisReplicationInfo.MasterSecret.Name != nil && redisReplicationInfo.MasterSecret.Key != nil {
 		*envVar = append(*envVar, corev1.EnvVar{
 			Name: "MASTER_PASSWORD",
 			ValueFrom: &corev1.EnvVarSource{
@@ -303,12 +309,12 @@ func getSentinelEnvVariable(ctx context.Context, client kubernetes.Interface, lo
 
 }
 
-func getRedisReplicationInfo(ctx context.Context, client kubernetes.Interface, logger logr.Logger, cr *redisv1beta2.RedisSentinel) *RedisReplicationInfo {
+func getRedisReplicationInfo(ctx context.Context, client kubernetes.Interface, logger logr.Logger, cr *redisv1beta2.RedisSentinel) (*RedisReplicationInfo, error) {
 	replicationInfo := &RedisReplicationInfo{}
 	dClient, err := GenerateK8sDynamicClient(GenerateK8sConfig)
 	if err != nil {
 		logger.Error(err, "Failed to generate dynamic client")
-		return nil
+		return nil, err
 	}
 
 	replicationName := cr.Spec.RedisSentinelConfig.RedisReplicationName
@@ -326,7 +332,7 @@ func getRedisReplicationInfo(ctx context.Context, client kubernetes.Interface, l
 
 	if err != nil {
 		logger.Error(err, "Failed to Execute Get Request", "replication name", replicationName, "namespace", replicationNamespace)
-		return nil
+		return nil, err
 	} else {
 		logger.V(1).Info("Successfully Execute the Get Request", "replication name", replicationName, "namespace", replicationNamespace)
 	}
@@ -335,13 +341,13 @@ func getRedisReplicationInfo(ctx context.Context, client kubernetes.Interface, l
 	replicationJSON, err := customObject.MarshalJSON()
 	if err != nil {
 		logger.Error(err, "Failed To Load JSON")
-		return nil
+		return nil, err
 	}
 
 	// Unmarshal The JSON on Object
 	if err := json.Unmarshal(replicationJSON, &replicationInstance); err != nil {
 		logger.Error(err, "Failed To Unmarshal JSON over the Object")
-		return nil
+		return nil, err
 	}
 
 	masterPods := GetRedisNodesByRole(ctx, client, logger, &replicationInstance, "master")
@@ -368,5 +374,5 @@ func getRedisReplicationInfo(ctx context.Context, client kubernetes.Interface, l
 			Key:  replicationInstance.Spec.KubernetesConfig.ExistingPasswordSecret.Key,
 		}
 	}
-	return replicationInfo
+	return replicationInfo, nil
 }

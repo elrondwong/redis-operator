@@ -54,6 +54,17 @@ func getRedisServerIP(client kubernetes.Interface, logger logr.Logger, redisInfo
 	return redisIP
 }
 
+func getRedisLBIP(client kubernetes.Interface, logger logr.Logger, redisInfo RedisDetails) string {
+	redisSvc, err := client.CoreV1().Services(redisInfo.Namespace).Get(context.TODO(), redisInfo.PodName, metav1.GetOptions{})
+	if err != nil {
+		logger.Error(err, "Error in getting Redis pod LB IP", "namespace", redisInfo.Namespace, "podName", redisInfo.PodName)
+		return ""
+	}
+
+	return redisSvc.Status.LoadBalancer.Ingress[0].IP
+
+}
+
 // getRedisHostname will return the complete FQDN for redis
 func getRedisHostname(redisInfo RedisDetails, cr *redisv1beta2.RedisCluster, role string) string {
 	fqdn := fmt.Sprintf("%s.%s-%s-headless.%s.svc", redisInfo.PodName, cr.ObjectMeta.Name, role, cr.Namespace)
@@ -466,7 +477,8 @@ func configureRedisReplicationClient(client kubernetes.Interface, logger logr.Lo
 		})
 	} else {
 		redisClient = redis.NewClient(&redis.Options{
-			Addr:      getRedisServerIP(client, logger, redisInfo) + ":6379",
+			Addr: getRedisServerIP(client, logger, redisInfo) + ":6379",
+			//Addr:      getRedisLBIP(client, logger, redisInfo) + ":6379",
 			Password:  "",
 			DB:        0,
 			TLSConfig: getRedisReplicationTLSConfig(client, logger, cr, redisInfo),
@@ -480,6 +492,7 @@ func GetRedisNodesByRole(ctx context.Context, client kubernetes.Interface, logge
 	statefulset, err := GetStatefulSet(cr.Namespace, cr.Name)
 	if err != nil {
 		logger.Error(err, "Failed to Get the Statefulset of the", "custom resource", cr.Name, "in namespace", cr.Namespace)
+		return nil
 	}
 
 	var pods []string
@@ -586,10 +599,10 @@ func CreateMasterSlaveReplication(ctx context.Context, client kubernetes.Interfa
 func CheckRedisStandaloneReady(cr *redisv1beta2.Redis) bool {
 	objName := cr.Name
 	objNamespace := cr.Namespace
-	client, err :=  GenerateK8sClient(GenerateK8sConfig)
-    if err != nil {
-        return false
-    }
+	client, err := GenerateK8sClient(GenerateK8sConfig)
+	if err != nil {
+		return false
+	}
 	sts, err := client.AppsV1().StatefulSets(objNamespace).Get(context.Background(), objName, metav1.GetOptions{})
 	if err != nil {
 		// Handle error
@@ -610,10 +623,10 @@ func CheckRedisStandaloneReady(cr *redisv1beta2.Redis) bool {
 func CheckRedisSentinelReady(cr *redisv1beta2.RedisSentinel) bool {
 	objName := cr.Name
 	objNamespace := cr.Namespace
-    client, err :=  GenerateK8sClient(GenerateK8sConfig)
-    if err != nil {
-        return false
-    }
+	client, err := GenerateK8sClient(GenerateK8sConfig)
+	if err != nil {
+		return false
+	}
 	sts, err := client.AppsV1().StatefulSets(objNamespace).Get(context.Background(), objName+"-sentinel", metav1.GetOptions{})
 	if err != nil {
 		// Handle error
@@ -632,9 +645,9 @@ func CheckRedisReplicationReady(cr *redisv1beta2.RedisReplication) bool {
 	objName := cr.Name
 	objNamespace := cr.Namespace
 	client, err := GenerateK8sClient(GenerateK8sConfig)
-    if err != nil {
-        return false
-    }
+	if err != nil {
+		return false
+	}
 	sts, err := client.AppsV1().StatefulSets(objNamespace).Get(context.Background(), objName, metav1.GetOptions{})
 	if err != nil {
 		// Handle error

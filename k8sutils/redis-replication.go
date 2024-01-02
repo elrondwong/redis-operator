@@ -47,15 +47,15 @@ func CreateReplicationService(cr *redisv1beta2.RedisReplication) error {
 	for i := 0; int32(i) < *cr.Spec.Size; i++ {
 		svcName := cr.ObjectMeta.Name + "-" + strconv.Itoa(i)
 		labels["statefulset.kubernetes.io/pod-name"] = svcName
-        delete(labels, "role")
+		delete(labels, "role")
 		podObjectMetaInfo := generateObjectMetaInformation(svcName, cr.Namespace, labels, annotations)
 		err = CreateOrUpdateService(cr.Namespace, podObjectMetaInfo, redisReplicationAsOwner(cr), enableMetrics, false, additionalServiceType)
 		if err != nil {
 			logger.Error(err, "Cannot create replication service for pod %s", svcName)
 			return err
 		}
-        delete(labels, "statefulset.kubernetes.io/pod-name")
-    }
+		delete(labels, "statefulset.kubernetes.io/pod-name")
+	}
 
 	// create master service
 	masterSvcName := cr.ObjectMeta.Name + "-" + "master"
@@ -142,7 +142,7 @@ func generateRedisReplicationContainerParams(cr *redisv1beta2.RedisReplication) 
 	trueProperty := true
 	falseProperty := false
 	containerProp := containerParameters{
-		Role:            "replication",
+		//Role:            "replication",
 		Image:           cr.Spec.KubernetesConfig.Image,
 		ImagePullPolicy: cr.Spec.KubernetesConfig.ImagePullPolicy,
 		Resources:       cr.Spec.KubernetesConfig.Resources,

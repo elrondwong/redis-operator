@@ -24,11 +24,11 @@ import (
 
 	core "github.com/elrondwong/redis-operator/generated/clientset/externalversions/core"
 	internalinterfaces "github.com/elrondwong/redis-operator/generated/clientset/externalversions/internalinterfaces"
+	clientset "github.com/elrondwong/redis-operator/generated/clientset/versioned"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	cache "k8s.io/client-go/tools/cache"
-	clientset "github.com/elrondwong/redis-operator/generated/clientset/versioned"
 )
 
 // SharedInformerOption defines the functional option type for SharedInformerFactory.

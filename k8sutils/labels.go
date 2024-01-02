@@ -139,9 +139,9 @@ func getRedisLabels(name string, st setupType, role string, labels map[string]st
 		"redis_setup_type": string(st),
 		"role":             role,
 	}
-    if st == replication {
-        delete(lbls, "role")
-    }
+	if st == replication {
+		delete(lbls, "role")
+	}
 	for k, v := range labels {
 		lbls[k] = v
 	}

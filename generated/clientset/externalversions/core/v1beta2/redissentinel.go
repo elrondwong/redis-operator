@@ -23,12 +23,12 @@ import (
 
 	apiv1beta2 "github.com/elrondwong/redis-operator/api/v1beta2"
 	internalinterfaces "github.com/elrondwong/redis-operator/generated/clientset/externalversions/internalinterfaces"
+	clientset "github.com/elrondwong/redis-operator/generated/clientset/versioned"
+	v1beta2 "github.com/elrondwong/redis-operator/generated/listers/core/v1beta2"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 	watch "k8s.io/apimachinery/pkg/watch"
 	cache "k8s.io/client-go/tools/cache"
-	clientset "github.com/elrondwong/redis-operator/generated/clientset/versioned"
-	v1beta2 "github.com/elrondwong/redis-operator/generated/listers/core/v1beta2"
 )
 
 // RedisSentinelInformer provides access to a shared informer and lister for
